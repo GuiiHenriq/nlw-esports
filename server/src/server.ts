@@ -25,10 +25,35 @@ app.post("/ads", (req, res) => {
 });
 
 // List Ads by Game
-app.get("/games/:id/ads", (req, res) => {
-  //const gameId = req.params.id;
+app.get("/games/:id/ads", async (req, res) => {
+  const gameId = req.params.id;
 
-  return res.json([]);
+  const ads = await prisma.ad.findMany({
+    select: {
+      id: true,
+      name: true,
+      weekDays: true,
+      useVoiceChannel: true,
+      yearsPlaying: true,
+      hoursStart: true,
+      hoursEnd: true,
+    },
+    where: {
+      gameId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return res.json(
+    ads.map((ad) => {
+      return {
+        ...ad,
+        weekDays: ad.weekDays.split(","),
+      };
+    })
+  );
 });
 
 // Get Discord by Ad
