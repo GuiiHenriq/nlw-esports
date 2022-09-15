@@ -1,9 +1,15 @@
 import express from "express";
+import cors from 'cors';
 import { PrismaClient } from "@prisma/client";
+import { convertHour } from "./utils/convert-hour";
+import { convertMinutes } from "./utils/convert-minutes";
 
 const app = express();
 const prisma = new PrismaClient();
 
+app.use(express.json());
+app.use(cors());
+ 
 // List Game
 app.get("/games", async (req, res) => {
   const games = await prisma.game.findMany({
@@ -20,8 +26,24 @@ app.get("/games", async (req, res) => {
 });
 
 // Create AD
-app.post("/ads", (req, res) => {
-  return res.json([]);
+app.post('/games/:id/ads', async (req, res) => {
+  const gameId = req.params.id;
+  const payload: any = req.body;
+
+  const ad = await prisma.ad.create({
+    data: {
+      gameId,
+      name: payload.name,
+      yearsPlaying: payload.yearsPlaying,
+      discord: payload.discord,
+      weekDays: payload.weekDays.join(','),
+      hourStart: convertHour(payload.hourStart),
+      hourEnd: convertHour(payload.hourEnd),
+      useVoiceChannel: payload.useVoiceChannel,
+    },
+  })
+
+  return res.status(201).json(ad);
 });
 
 // List Ads by Game
@@ -35,8 +57,8 @@ app.get("/games/:id/ads", async (req, res) => {
       weekDays: true,
       useVoiceChannel: true,
       yearsPlaying: true,
-      hoursStart: true,
-      hoursEnd: true,
+      hourStart: true,
+      hourEnd: true,
     },
     where: {
       gameId,
@@ -51,6 +73,8 @@ app.get("/games/:id/ads", async (req, res) => {
       return {
         ...ad,
         weekDays: ad.weekDays.split(","),
+        hourStart: convertMinutes(ad.hourStart),
+        hourEnd: convertMinutes(ad.hourEnd)
       };
     })
   );
@@ -65,9 +89,9 @@ app.get("/ads/:id/discord", async (req, res) => {
       discord: true,
     },
     where: {
-      id: adId
-    }
-  })
+      id: adId,
+    },
+  });
 
   return res.json({
     discord: ad.discord,
