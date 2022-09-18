@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
+
 import "./styles/main.css";
 import Logo from "./assets/logo.svg";
+
 import { GameCard } from "./components/GameCard";
 import { CreateAdBanner } from "./components/CreateAdBanner";
 import { CreateAdModal } from "./components/CreateAdModal";
@@ -19,11 +22,9 @@ function App() {
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:8888/games")
-      .then((res) => res.json())
-      .then((data) => {
-        setGames(data);
-      });
+    axios.get("http://localhost:8888/games").then((res) => {
+      setGames(res.data);
+    });
   }, []);
 
   return (
