@@ -17,7 +17,7 @@ import { DuoMatch } from "../../components/DuoMatch";
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
-  const [discordSelected, setDiscordSelected] = useState("teste#333");
+  const [discordSelected, setDiscordSelected] = useState("");
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -25,6 +25,12 @@ export function Game() {
 
   function handleGoHome() {
     navigation.goBack();
+  }
+
+  async function getDiscordUser(adsId: string) {
+    fetch(`http://192.168.1.6:8888/ads/${adsId}/discord`)
+      .then((res) => res.json())
+      .then((data) => setDiscordSelected(data.discord));
   }
 
   useEffect(() => {
@@ -68,7 +74,7 @@ export function Game() {
           ]}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <DuoCard data={item} onConnect={() => {}} />
+            <DuoCard data={item} onConnect={() => getDiscordUser(item.id)} />
           )}
           ListEmptyComponent={() => (
             <Text style={styles.emptyListText}>
