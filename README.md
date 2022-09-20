@@ -1,4 +1,3 @@
-# NLW e-Sports | Duo Twitch
 <h1 align="center">
     <img alt="NLW eSports" title="#NLW eSports" src="./assets/nlw-esports-logo.svg" width="250px" />
 </h1>
@@ -6,6 +5,7 @@ If you have mastered the fundamentals of programming and want to take your skill
 
 # Deploy :rocket:
 **WEB APP:** https://duo-twitch-nlw.vercel.app/
+<br/>
 **API:** https://duo-twitch-nlw.fly.dev/
 
 
