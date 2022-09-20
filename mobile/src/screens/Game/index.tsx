@@ -28,13 +28,13 @@ export function Game() {
   }
 
   async function getDiscordUser(adsId: string) {
-    fetch(`http://192.168.1.6:8888/ads/${adsId}/discord`)
+    fetch(`https://duo-twitch-nlw.fly.dev/ads/${adsId}/discord`)
       .then((res) => res.json())
       .then((data) => setDiscordSelected(data.discord));
   }
 
   useEffect(() => {
-    fetch(`http://192.168.1.6:8888/games/${game.id}/ads`)
+    fetch(`https://duo-twitch-nlw.fly.dev/games/${game.id}/ads`)
       .then((res) => res.json())
       .then((data) => setDuos(data));
   }, []);

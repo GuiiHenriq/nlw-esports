@@ -98,4 +98,4 @@ app.get("/ads/:id/discord", async (req, res) => {
   });
 });
 
-app.listen(8888);
+app.listen(8080);

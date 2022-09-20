@@ -18,7 +18,7 @@ export function CreateAdModal() {
   const [useVoiceChannel, setUseVoiceChannel] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8888/games").then((res) => {
+    axios.get("https://duo-twitch-nlw.fly.dev/games").then((res) => {
       setGames(res.data);
     });
   }, []);
@@ -32,7 +32,7 @@ export function CreateAdModal() {
     if(!data.name) return;
 
     try {
-      await axios.post(`http://localhost:8888/games/${data.game}/ads`, {
+      await axios.post(`https://duo-twitch-nlw.fly.dev/games/${data.game}/ads`, {
         name: data.name,
         yearsPlaying: Number(data.yearsPlaying),
         discord: data.discord,

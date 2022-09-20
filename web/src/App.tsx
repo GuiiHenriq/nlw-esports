@@ -22,7 +22,7 @@ function App() {
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8888/games").then((res) => {
+    axios.get("https://duo-twitch-nlw.fly.dev/games").then((res) => {
       setGames(res.data);
     });
   }, []);

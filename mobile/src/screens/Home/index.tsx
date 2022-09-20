@@ -21,7 +21,7 @@ export function Home() {
   }
 
   useEffect(() => {
-    fetch("http://192.168.1.6:8888/games")
+    fetch("https://duo-twitch-nlw.fly.dev/games")
       .then((res) => res.json())
       .then((data) => setGames(data));
   }, []);
